@@ -1,21 +1,13 @@
-sudo: required
-
 services:
   - docker
 
 install:
   - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-  - docker build . -t marketreaction/sentiment-api
-#  - docker build Dockerfile-arm -t marketreaction/sentiment-api:arm
-  - docker push marketreaction/sentiment-api
-#  - docker push marketreaction/sentiment-api:arm
-
-
-script:
   - docker run --rm --privileged multiarch/qemu-user-static:register --reset
-  - docker build -t marketreaction/sentiment-api .
+  - docker build . -t marketreaction/sentiment-api
+  - docker build Dockerfile-arm -t marketreaction/sentiment-api:arm
   - >
     if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
-      docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
       docker push marketreaction/sentiment-api
+      docker push marketreaction/sentiment-api:arm
     fi
