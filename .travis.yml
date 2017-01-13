@@ -4,8 +4,8 @@ services:
 install:
   - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - docker run --rm --privileged multiarch/qemu-user-static:register --reset
-  - docker build . -t marketreaction/sentiment-api
-  - docker build Dockerfile-arm -t marketreaction/sentiment-api:arm
+  - docker build -t marketreaction/sentiment-api .
+  - docker build -t marketreaction/sentiment-api:arm ARM
   - >
     if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
       docker push marketreaction/sentiment-api
