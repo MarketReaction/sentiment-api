@@ -1,7 +1,7 @@
 services:
   - docker
 
-install:
+script:
   - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - docker run --rm --privileged multiarch/qemu-user-static:register --reset
   - docker build -t marketreaction/sentiment-api .
